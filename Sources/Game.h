@@ -4,6 +4,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "TextureManager.h"
+#include "GameObject.h"
+#include "Player.h"
 
 // Constants
 const int WINDOWPOS_CENTERED = SDL_WINDOWPOS_CENTERED;
@@ -55,6 +57,9 @@ class Game {
         int m_currentFrame;
 
         bool m_bRunning;
+
+        GameObject m_go;
+        Player m_player;
 };
 
 #endif

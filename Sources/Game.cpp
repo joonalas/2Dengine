@@ -43,11 +43,12 @@ int height, const int wflag, const int rflag) {
 
     std::cout << "Initialization success!" << std::endl;
     m_bRunning = true;
-
     //Texture loading
     if(!TextureManager::Instance()->load("../Assets/ashsprites.png", "ash", m_pRenderer)) {
         std::cerr << "WARNING!!! Unable to load textures" << std::endl;
     }
+    m_go.load(100, 100, 32, 32, "ash");
+    m_player.load(300, 300, 32, 32, "ash");
 
     return true; // SDL initialization success
 }
@@ -66,14 +67,16 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-    m_currentFrame = int( ( (SDL_GetTicks() / 100) % 5 ) );
+    m_go.update();
+    m_player.update();
+    //m_currentFrame = int( ( (SDL_GetTicks() / 100) % 5 ) );
 }
 
 void Game::render() {
     SDL_RenderClear(m_pRenderer);           // clear renderer with drawing color  
 
-    TextureManager::Instance()->draw("ash", 0, 0, 32, 32, m_pRenderer);
-    TextureManager::Instance()->drawFrame("ash", 200, 200, 32, 32, 2, m_currentFrame, m_pRenderer);
+    m_go.draw(m_pRenderer);
+    m_player.draw(m_pRenderer);
 
     SDL_RenderPresent(m_pRenderer);         // update the screen
 }

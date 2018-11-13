@@ -1,8 +1,8 @@
 #OBJS specifies which files to compile
-OBJS = Main.o Game.o TextureManager.o
+OBJS = Main.o Game.o TextureManager.o GameObject.o Player.o
 
 #My own headers
-HEADERS = Game.h TextureManager.h
+HEADERS = Game.h TextureManager.h GameObject.h Player.h
 
 #CC specifies which compiler we're using
 CC = g++
