@@ -3,9 +3,11 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <vector>
 #include "TextureManager.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "Enemy.h"
 
 // Constants
 const int WINDOWPOS_CENTERED = SDL_WINDOWPOS_CENTERED;
@@ -58,8 +60,8 @@ class Game {
 
         bool m_bRunning;
 
-        GameObject m_go;
-        Player m_player;
+        GameObject* m_player;
+        std::vector<GameObject*> m_gameObjects;
 };
 
 #endif
