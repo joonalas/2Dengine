@@ -44,7 +44,7 @@ int height, const int wflag, const int rflag) {
     std::cout << "Initialization success!" << std::endl;
     m_bRunning = true;
     //Texture loading
-    if(!TextureManager::Instance()->load("../Assets/ashsprites.png", "ash", m_pRenderer)) {
+    if(!TextureManager::Instance()->load("Assets/ashsprites.png", "ash", m_pRenderer)) {
         std::cerr << "WARNING!!! Unable to load textures" << std::endl;
     }
     m_go.load(100, 100, 32, 32, "ash");

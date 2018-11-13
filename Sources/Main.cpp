@@ -25,6 +25,7 @@ int main() {
         game.handleEvents();
         game.update();
         game.render();
+        SDL_Delay(20);
     }
     
     game.clean();
