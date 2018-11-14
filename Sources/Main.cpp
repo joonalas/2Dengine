@@ -3,7 +3,12 @@
 
 using namespace std;
 
+const int FPS = 60;
+const int DELAY_TIME = 1000.0f / FPS;
+
 int main() {
+    Uint32 frameStart, frameTime;
+
     int wflag = 0;
     int rflag = 0;
     if(!Game::Instance()->init(
@@ -20,10 +25,16 @@ int main() {
     }
 
     while(Game::Instance()->isRunning()) {
+        frameStart = SDL_GetTicks();
+
         Game::Instance()->handleEvents();
         Game::Instance()->update();
         Game::Instance()->render();
-        SDL_Delay(20);
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if(frameTime < DELAY_TIME) {
+            SDL_Delay((int)(DELAY_TIME - frameTime));
+        }
     }
     
     Game::Instance()->clean();

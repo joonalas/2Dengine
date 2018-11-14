@@ -10,7 +10,7 @@ void Player::draw() {
 
 void Player::update() {
     m_currentFrame = int( ( (SDL_GetTicks() / 100) % 5 ) );
-    m_acceleration.setX(0.5);
+    m_acceleration.setX(0.05);
     SDLGameObject::update();
 }
 

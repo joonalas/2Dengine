@@ -10,8 +10,8 @@ void Enemy::draw() {
 
 void Enemy::update() {
     m_currentFrame = int( ( (SDL_GetTicks() / 100) % 5 ) );
-    m_acceleration.setX(-1);
-    m_acceleration.setY(-1);
+    m_acceleration.setX(-0.05);
+    m_acceleration.setY(-0.05);
     SDLGameObject::update();
 }
 
