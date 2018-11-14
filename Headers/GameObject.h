@@ -13,7 +13,7 @@ class GameObject {
         virtual void clean() = 0;
         virtual ~GameObject() {}
     protected:
-        GameObject(const LoaderParams* pParams) {}
+        GameObject(const LoaderParams* pParams) { std::cout << "GameObject() constructor says hi!" << std::endl; }
         GameObject() {}
 };
 
