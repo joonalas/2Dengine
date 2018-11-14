@@ -1,15 +1,24 @@
 #include "Game.h"
 #include <iostream>
 
+Game* Game::s_pInstance = 0;
+
 Game::Game() {
     m_pWindow = 0;
     m_pRenderer = 0;
     m_currentFrame = 0;
-    m_player = 0;
     m_bRunning = true;
 }
 
 Game::~Game() {}
+
+Game* Game::Instance() {
+    if(s_pInstance == 0) {
+        s_pInstance = new Game();
+        return s_pInstance;
+    }
+    return s_pInstance;
+}
 
 bool Game::init(const char* title, int xpos, int ypos, int width, 
 int height, const int wflag, const int rflag) {
@@ -48,13 +57,13 @@ int height, const int wflag, const int rflag) {
     if(!TextureManager::Instance()->load("/home/joonas/Documents/C/2Dengine/Assets/ashsprites.png", "ash", m_pRenderer)) {
         std::cerr << "WARNING!!! Unable to load textures" << std::endl;
     }
-    GameObject* enemy1 = new Enemy();
-    enemy1->load(100, 100, 32, 32, "ash");
-    m_gameObjects.push_back(enemy1);
 
-    m_player = new Player();
-    m_player->load(300, 300, 32, 32, "ash");
-    m_gameObjects.push_back(m_player);
+    LoaderParams* pParams = new LoaderParams(100, 100, 32, 32, "ash");
+    m_gameObjects.push_back(new Enemy(pParams));
+    delete pParams;
+    pParams = new LoaderParams(300, 300, 32, 32, "ash");
+    m_gameObjects.push_back(new Player(pParams));
+    delete pParams;
 
     return true; // SDL initialization success
 }
@@ -82,7 +91,7 @@ void Game::render() {
     SDL_RenderClear(m_pRenderer);           // clear renderer with drawing color  
 
     for(std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++) {
-        m_gameObjects[i]->draw(m_pRenderer);
+        m_gameObjects[i]->draw();
     }
 
     SDL_RenderPresent(m_pRenderer);         // update the screen

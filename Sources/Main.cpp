@@ -4,11 +4,9 @@
 using namespace std;
 
 int main() {
-    Game game;
-
     int wflag = 0;
     int rflag = 0;
-    if(!game.init(
+    if(!Game::Instance()->init(
         "Hello SDL", 
         WINDOWPOS_CENTERED, 
         WINDOWPOS_CENTERED, 
@@ -18,16 +16,16 @@ int main() {
         rflag
         )) {
         
-        return 1;
+        return -1;
     }
 
-    while(game.isRunning()) {
-        game.handleEvents();
-        game.update();
-        game.render();
+    while(Game::Instance()->isRunning()) {
+        Game::Instance()->handleEvents();
+        Game::Instance()->update();
+        Game::Instance()->render();
         SDL_Delay(20);
     }
     
-    game.clean();
+    Game::Instance()->clean();
     return 0;
 }

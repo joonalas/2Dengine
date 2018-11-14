@@ -36,8 +36,7 @@ enum RendererFlags {
 
 class Game {
     public:
-        Game();
-        ~Game();
+        static Game* Instance();
         bool init(
             const char* title, 
             int xpos, 
@@ -52,15 +51,16 @@ class Game {
         void render();
         void clean();
         bool isRunning();
+        SDL_Renderer* getRenderer() const { return m_pRenderer; }
     private:
+        Game();
+        ~Game();
         SDL_Window* m_pWindow;
         SDL_Renderer* m_pRenderer;
-
+        static Game* s_pInstance;
         int m_currentFrame;
 
         bool m_bRunning;
-
-        GameObject* m_player;
         std::vector<GameObject*> m_gameObjects;
 };
 

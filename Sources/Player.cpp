@@ -1,13 +1,11 @@
 #include "Player.h"
 
+Player::Player(const LoaderParams* pParams) : SDLGameObject(pParams) {}
+
 Player::~Player() {}
 
-void Player::load(int x, int y, int width, int height, std::string textureID) {
-    GameObject::load(x,y,width,height,textureID);
-}
-
-void Player::draw(SDL_Renderer* pRenderer) {
-    GameObject::draw(pRenderer);
+void Player::draw() {
+    SDLGameObject::draw();
 }
 
 void Player::update() {
@@ -16,6 +14,5 @@ void Player::update() {
 }
 
 void Player::clean() {
-    GameObject::clean();
     std::cout << "cleaning player object." << std::endl;
 }

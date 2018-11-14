@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/SDL2",
-                "${workspaceFolder}/SandBox"
+                "${workspaceFolder}/SandBox",
+                "${workspaceFolder}/Headers"
             ],
             "defines": [],
             "compilerPath": "/bin/clang",
