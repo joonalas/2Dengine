@@ -20,6 +20,7 @@ class SDLGameObject : public GameObject {
         int m_currentRow;
         int m_currentFrame;
         std::string m_textureID;
+        SDL_RendererFlip m_spriteFlip;
 };
 
 #endif

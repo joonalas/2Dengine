@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "FPSfixer.h"
 #include <iostream>
 
 using namespace std;
@@ -7,7 +8,9 @@ const int FPS = 60;
 const int DELAY_TIME = 1000.0f / FPS;
 
 int main() {
-    Uint32 frameStart, frameTime;
+
+    FPSfixer::Instance()->setFPS(FPS);
+    FPSfixer::Instance()->setDelayTime(DELAY_TIME);
 
     int wflag = 0;
     int rflag = 0;
@@ -25,18 +28,19 @@ int main() {
     }
 
     while(Game::Instance()->isRunning()) {
-        frameStart = SDL_GetTicks();
-
+        
+        FPSfixer::Instance()->startFrame();
         Game::Instance()->handleEvents();
         Game::Instance()->update();
         Game::Instance()->render();
-
-        frameTime = SDL_GetTicks() - frameStart;
+        FPSfixer::Instance()->stopFrame();
+        /*frameTime = SDL_GetTicks() - frameStart;
         if(frameTime < DELAY_TIME) {
             SDL_Delay((int)(DELAY_TIME - frameTime));
-        }
+        }*/
     }
     
     Game::Instance()->clean();
+    FPSfixer::Instance()->clean();
     return 0;
 }

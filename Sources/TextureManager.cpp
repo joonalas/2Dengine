@@ -72,4 +72,5 @@ void TextureManager::clean() {
         std::cout << "Texture '" << itr->first << "' destroyed!" << std::endl;
         m_textureMap.erase(itr++);
     }
+    delete s_pInstance;
 }

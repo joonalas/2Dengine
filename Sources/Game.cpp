@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "InputHandler.h"
 #include <iostream>
 
 Game* Game::s_pInstance = 0;
@@ -58,10 +59,8 @@ int height, const int wflag, const int rflag) {
         std::cerr << "WARNING!!! Unable to load textures" << std::endl;
     }
 
-    LoaderParams* pParams = new LoaderParams(100, 100, 32, 32, "ash");
-    m_gameObjects.push_back(new Enemy(pParams));
-    delete pParams;
-    pParams = new LoaderParams(300, 300, 32, 32, "ash");
+    //Game objects creation
+    LoaderParams* pParams = new LoaderParams(300, 300, 32, 32, "ash");
     m_gameObjects.push_back(new Player(pParams));
     delete pParams;
 
@@ -69,16 +68,7 @@ int height, const int wflag, const int rflag) {
 }
 
 void Game::handleEvents() {
-    SDL_Event event;
-    if(SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                m_bRunning = false;
-                break;
-            default:
-                break;
-        }
-    }
+    InputHandler::Instance()->handleEvents();
 }
 
 void Game::update() {
@@ -106,9 +96,11 @@ void Game::clean() {
         m_gameObjects.erase(itr--);
     }
     TextureManager::Instance()->clean();
+    InputHandler::Instance()->clean();
     SDL_DestroyWindow(m_pWindow);
     SDL_DestroyRenderer(m_pRenderer);
     SDL_Quit();
+    delete s_pInstance;
 }
 
 bool Game::isRunning() {

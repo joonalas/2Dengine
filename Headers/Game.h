@@ -49,6 +49,7 @@ class Game {
         void handleEvents();
         void update();
         void render();
+        void quit() { m_bRunning = false; }
         void clean();
         bool isRunning();
         SDL_Renderer* getRenderer() const { return m_pRenderer; }
