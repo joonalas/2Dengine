@@ -1,5 +1,7 @@
 #include "Game.h"
 #include "InputHandler.h"
+#include "MenuState.h"
+#include "PlayState.h"
 #include <iostream>
 
 Game* Game::s_pInstance = 0;
@@ -54,49 +56,39 @@ int height, const int wflag, const int rflag) {
 
     std::cout << "Initialization success!" << std::endl;
     m_bRunning = true;
-    //Texture loading
-    if(!TextureManager::Instance()->load("/home/joonas/Documents/C/2Dengine/Assets/ashsprites.png", "ash", m_pRenderer)) {
-        std::cerr << "WARNING!!! Unable to load textures" << std::endl;
-    }
 
-    //Game objects creation
-    LoaderParams* pParams = new LoaderParams(300, 300, 32, 32, "ash");
-    m_gameObjects.push_back(new Player(pParams));
-    delete pParams;
+    m_pGameStateMachine = new GameStateMachine();
+    m_pGameStateMachine->changeState(new MenuState());
 
     return true; // SDL initialization success
 }
 
 void Game::handleEvents() {
     InputHandler::Instance()->handleEvents();
+
+    if(InputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)) {
+        m_pGameStateMachine->changeState(new PlayState());
+    }
 }
 
 void Game::update() {
-    for(std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++) {
-        m_gameObjects[i]->update();
-    }
+    m_pGameStateMachine->update();
 }
 
 void Game::render() {
     SDL_RenderClear(m_pRenderer);           // clear renderer with drawing color  
 
-    for(std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++) {
-        m_gameObjects[i]->draw();
-    }
+    m_pGameStateMachine->render();
 
     SDL_RenderPresent(m_pRenderer);         // update the screen
 }
 
 void Game::clean() {
+    m_pGameStateMachine->popState();
     std::cout << "Cleaning up and exiting the game..." << std::endl;
-    std::cout << "Cleaning up game objects..." << std::endl;
-    for(std::vector<GameObject*>::iterator itr = m_gameObjects.begin(); itr != m_gameObjects.end(); itr++) {
-        delete *itr;
-        std::cout << "Game object deleted!" << std::endl;
-        m_gameObjects.erase(itr--);
-    }
     TextureManager::Instance()->clean();
     InputHandler::Instance()->clean();
+    delete m_pGameStateMachine;
     SDL_DestroyWindow(m_pWindow);
     SDL_DestroyRenderer(m_pRenderer);
     SDL_Quit();

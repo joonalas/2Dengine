@@ -8,6 +8,7 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "GameStateMachine.h"
 
 // Constants
 const int WINDOWPOS_CENTERED = SDL_WINDOWPOS_CENTERED;
@@ -53,6 +54,7 @@ class Game {
         void clean();
         bool isRunning();
         SDL_Renderer* getRenderer() const { return m_pRenderer; }
+        GameStateMachine* getStateMachine(){ return m_pGameStateMachine; }
     private:
         Game();
         ~Game();
@@ -62,7 +64,8 @@ class Game {
         int m_currentFrame;
 
         bool m_bRunning;
-        std::vector<GameObject*> m_gameObjects;
+        //std::vector<GameObject*> m_gameObjects;
+        GameStateMachine* m_pGameStateMachine;
 };
 
 #endif

@@ -74,3 +74,8 @@ void TextureManager::clean() {
     }
     delete s_pInstance;
 }
+
+void TextureManager::clearFromTextureMap(std::string id) {
+    SDL_DestroyTexture(m_textureMap[id]);
+    m_textureMap.erase(id);
+}
