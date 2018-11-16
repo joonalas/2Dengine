@@ -21,10 +21,14 @@ void GameStateMachine::changeState(GameState* pState) {
         if(m_gameStates.back()->getStateID() == pState->getStateID()) {
             return;
         }
-        if(m_gameStates.back()->onExit()) {
-            delete m_gameStates.back();
-            m_gameStates.pop_back();
+        //All previous states have to be deleted
+        while(m_gameStates.size() > 0) {
+            if(m_gameStates.back()->onExit()) {
+                delete m_gameStates.back();
+                m_gameStates.pop_back();
+            }
         }
+        
     }
     m_gameStates.push_back(pState);
     m_gameStates.back()->onEnter();

@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include <vector>
+#include <memory>
 
 class GameStateMachine {
     public:

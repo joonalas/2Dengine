@@ -1,13 +1,21 @@
-#include "MenuState.h"
-#include "TextureManager.h"
+#include "PauseState.h"
 #include "Game.h"
+#include "MenuState.h"
 #include "MenuButton.h"
-#include "PlayState.h"
 #include "StateChangeException.h"
 
-const std::string MenuState::s_menuID = "MENU";
+const std::string PauseState::s_pauseID = "PAUSE";
 
-void MenuState::update() {
+void PauseState::s_pauseToMain() {
+    Game::Instance()->getStateMachine()->changeState(new MenuState());
+    throw(StateChangeException());
+}
+
+void PauseState::s_resumePlay() {
+    Game::Instance()->getStateMachine()->popState();
+}
+
+void PauseState::update() {
     try {
         for(std::vector<GameObject*>::size_type i = 0; i < m_gameObjects.size(); i++) {
             m_gameObjects[i]->update();
@@ -15,13 +23,13 @@ void MenuState::update() {
     } catch(StateChangeException& e) {}
 }
 
-void MenuState::render() {
+void PauseState::render() {
     for(std::vector<GameObject*>::size_type i = 0; i < m_gameObjects.size(); i++) {
         m_gameObjects[i]->draw();
     }
 }
 
-bool MenuState::onEnter() {
+bool PauseState::onEnter() {
     //Texture loading
     if(!TextureManager::Instance()->load("/home/joonas/Documents/C/2Dengine/Assets/playbutton.png", "playbutton", Game::Instance()->getRenderer())) {
         std::cerr << "WARNING!!! Texture load error!" << std::endl;
@@ -34,32 +42,22 @@ bool MenuState::onEnter() {
 
     //Game objects creation
     LoaderParams* pParams = new LoaderParams(265, 240, 110, 33, "playbutton");
-    m_gameObjects.push_back(new MenuButton(pParams, s_menuToPlay));
+    m_gameObjects.push_back(new MenuButton(pParams, s_resumePlay));
     delete pParams;
     pParams = new LoaderParams(265, 280, 110, 33, "exitbutton");
-    m_gameObjects.push_back(new MenuButton(pParams, s_exitFromMenu));
+    m_gameObjects.push_back(new MenuButton(pParams, s_pauseToMain));
     delete pParams;
 
     return true;
 }
 
-bool MenuState::onExit() {
+bool PauseState::onExit() {
     for(std::vector<GameObject*>::size_type i = 0; i < m_gameObjects.size(); i++) {
         m_gameObjects[i]->clean();
         delete m_gameObjects[i];
     }
-    std::vector<GameObject*> emptyVect;
-    m_gameObjects.swap(emptyVect);
+    m_gameObjects.clear();
     TextureManager::Instance()->clearFromTextureMap("playbutton");
     TextureManager::Instance()->clearFromTextureMap("exitbutton");
     return true;
-}
-
-void MenuState::s_menuToPlay() {
-    Game::Instance()->getStateMachine()->changeState(new PlayState());
-    throw(StateChangeException());
-}
-
-void MenuState::s_exitFromMenu() {
-    Game::Instance()->quit();
 }

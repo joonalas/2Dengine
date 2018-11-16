@@ -3,6 +3,7 @@
 #include "MenuState.h"
 #include "PlayState.h"
 #include <iostream>
+#include "PauseState.h"
 
 Game* Game::s_pInstance = 0;
 
@@ -66,9 +67,9 @@ int height, const int wflag, const int rflag) {
 void Game::handleEvents() {
     InputHandler::Instance()->handleEvents();
 
-    if(InputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)) {
-        m_pGameStateMachine->changeState(new PlayState());
-    }
+    /*if(InputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)) {
+        m_pGameStateMachine->changeState(std::shared_ptr<GameState> (new PauseState()));
+    }*/
 }
 
 void Game::update() {
