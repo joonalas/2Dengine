@@ -23,11 +23,11 @@ void MenuState::render() {
 
 bool MenuState::onEnter() {
     //Texture loading
-    if(!TextureManager::Instance()->load("/home/joonas/Documents/C/2Dengine/Assets/playbutton.png", "playbutton", Game::Instance()->getRenderer())) {
+    if(!TextureManager::Instance()->load("Assets/playbutton.png", "playbutton", Game::Instance()->getRenderer())) {
         std::cerr << "WARNING!!! Texture load error!" << std::endl;
         return false;
     }
-    if(!TextureManager::Instance()->load("/home/joonas/Documents/C/2Dengine/Assets/exitbutton.png", "exitbutton", Game::Instance()->getRenderer())) {
+    if(!TextureManager::Instance()->load("Assets/exitbutton.png", "exitbutton", Game::Instance()->getRenderer())) {
         std::cerr << "WARNING!!! Texture load error!" << std::endl;
         return false;
     }
@@ -35,6 +35,7 @@ bool MenuState::onEnter() {
     //Game objects creation
     LoaderParams* pParams = new LoaderParams(265, 240, 110, 33, "playbutton");
     m_gameObjects.push_back(new MenuButton(pParams, s_menuToPlay));
+    std::cout << "pparams playbutton: " << pParams->getInitFrame() << pParams->getInitRow() << std::endl;
     delete pParams;
     pParams = new LoaderParams(265, 280, 110, 33, "exitbutton");
     m_gameObjects.push_back(new MenuButton(pParams, s_exitFromMenu));

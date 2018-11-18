@@ -11,13 +11,18 @@ class SDLGameObject : public GameObject {
         virtual void draw();
         virtual void update();
         virtual void clean() {};
+        Vector2D* getPosition() {return &m_position;}
+        int getWidth() const {return m_width;}
+        int getHeight() const {return m_height;}
     protected:
         Vector2D m_position;
         Vector2D m_velocity;
         Vector2D m_acceleration;
         int m_width;
         int m_height;
+        int m_startingRow;
         int m_currentRow;
+        int m_startingFrame;
         int m_currentFrame;
         std::string m_textureID;
         SDL_RendererFlip m_spriteFlip;

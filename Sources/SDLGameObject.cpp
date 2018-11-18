@@ -9,8 +9,10 @@ m_velocity(0, 0), m_acceleration(0, 0) {
     m_height = pParams->getHeight();
     m_textureID = pParams->getTextureID();
 
-    m_currentRow = 1;
-    m_currentFrame = 1;
+    m_startingRow = pParams->getInitRow();
+    m_startingFrame = pParams->getInitFrame();
+    m_currentFrame = m_startingFrame;
+    m_currentRow = m_startingRow;
     m_spriteFlip = SDL_FLIP_NONE;
 }
 

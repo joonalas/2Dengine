@@ -2,7 +2,7 @@
 #define PLAY_STATE_H
 
 #include "GameState.h"
-#include "GameObject.h"
+#include "SDLGameObject.h"
 #include <vector>
 
 class PlayState : public GameState {
@@ -18,6 +18,7 @@ class PlayState : public GameState {
     private:
         static const std::string s_playID;
         std::vector<GameObject*> m_gameObjects;
+        bool checkCollision(SDLGameObject* object1, SDLGameObject* object2);
 };
 
 #endif
